@@ -1,10 +1,27 @@
 import { Component } from '@angular/core';
 
+import { User } from './auth-form/auth-form.interface';
+
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: `
+    <div>
+      <auth-form (submitted)="createUser($event)">
+        <!-- this is available in the auth-form using ng-content -->
+        <h3>Create account</h3>
+      </auth-form>
+      <auth-form (submitted)="loginUser($event)">
+        <h3>Login</h3>
+      </auth-form>
+    </div>
+  `
 })
 export class AppComponent {
-  title = 'ng-angular-course-pro';
+  createUser(user: User) {
+    console.log('Create account', user);
+  }
+
+  loginUser(user: User) {
+    console.log('Login', user);
+  }
 }
