@@ -1,3 +1,7 @@
+# Notes
+
+1. to run the server: `npm run server`
+
 # NgAngularCoursePro
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
