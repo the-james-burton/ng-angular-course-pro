@@ -9,9 +9,15 @@ import { User } from './auth-form/auth-form.interface';
       <auth-form (submitted)="createUser($event)">
         <!-- this is available in the auth-form using ng-content -->
         <h3>Create account</h3>
+        <button type="submit">
+          Join us
+        </button>
       </auth-form>
       <auth-form (submitted)="loginUser($event)">
         <h3>Login</h3>
+        <button type="submit">
+          Login
+        </button>
       </auth-form>
     </div>
   `
