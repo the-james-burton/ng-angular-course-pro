@@ -5,8 +5,9 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
-  ViewChild,
-  AfterViewInit
+  AfterViewInit,
+  ViewChildren,
+  ChangeDetectorRef
 } from "@angular/core";
 
 import { AuthRememberComponent } from "./auth-remember.component";
@@ -29,11 +30,15 @@ import { User } from "./auth-form.interface";
           <input type="password" name="password" ngModel />
         </label>
         <ng-content select="auth-remember"></ng-content>
-        <!-- this appears to confuse the angular2-inline plugin
-         and causes formatting problems in vs code -->
-        <auth-message [style.display]="showMessage ? 'inherit' : 'none'">
-        </auth-message>
-        <ng-content select="button"></ng-content>
+        <!-- due to vs code angular2-inline plugin formatting problem
+          this is rewritten as a function -->
+          <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
+          </auth-message>
+          <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
+          </auth-message>
+          <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
+          </auth-message>
+              <ng-content select="button"></ng-content>
       </form>
     </div>
   `
@@ -47,16 +52,17 @@ export class AuthFormComponent implements AfterContentInit, AfterViewInit {
   @Output()
   submitted: EventEmitter<User> = new EventEmitter<User>();
 
-  @ViewChild(AuthMessageComponent) message: AuthMessageComponent;
+  @ViewChildren(AuthMessageComponent) message: QueryList<AuthMessageComponent>;
 
-  ngAfterViewInit(): void {
-    console.log(this.message);
+  inheritStyleIfTrue(test: boolean) {
+    return test ? 'inherit' : 'none';
   }
 
+  constructor(private cd: ChangeDetectorRef) {
+  }
+
+  // this runs before ngAFterViewInit()
   ngAfterContentInit(): void {
-    if (this.message) {
-      this.message.days = 30;
-    }
     if (this.remember) {
       console.log(this.remember);
       this.remember.forEach(item => {
@@ -66,6 +72,18 @@ export class AuthFormComponent implements AfterContentInit, AfterViewInit {
       });
     }
   }
+
+  /* note that it is not recommended to mutate the view
+   * after the content has been initialized
+   * this is to demonstrate the change detection
+   */
+  ngAfterViewInit(): void {
+    if (this.message) {
+      this.message.forEach((message: AuthMessageComponent) => message.days = 30);
+    }
+    this.cd.detectChanges();
+  }
+
 
   onSubmit(value: User) {
     this.submitted.emit(value);
