@@ -7,7 +7,9 @@ import {
   AfterContentInit,
   AfterViewInit,
   ViewChildren,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ViewChild,
+  ElementRef
 } from '@angular/core';
 
 import { AuthRememberComponent } from './auth-remember.component';
@@ -23,7 +25,7 @@ import { User } from './auth-form.interface';
         <ng-content select="h3"></ng-content>
         <label>
           Email address
-          <input type="email" name="email" ngModel />
+          <input type="email" name="email" ngModel #email />
         </label>
         <label>
           Password
@@ -32,10 +34,6 @@ import { User } from './auth-form.interface';
         <ng-content select="auth-remember"></ng-content>
         <!-- due to vs code angular2-inline plugin formatting problem
           this is rewritten as a function -->
-        <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
-        </auth-message>
-        <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
-        </auth-message>
         <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
         </auth-message>
         <ng-content select="button"></ng-content>
@@ -51,6 +49,8 @@ export class AuthFormComponent implements AfterContentInit, AfterViewInit {
 
   @Output()
   submitted: EventEmitter<User> = new EventEmitter<User>();
+
+  @ViewChild('email') email: ElementRef;
 
   @ViewChildren(AuthMessageComponent) message: QueryList<AuthMessageComponent>;
 
@@ -77,6 +77,7 @@ export class AuthFormComponent implements AfterContentInit, AfterViewInit {
    * this is to demonstrate the change detection
    */
   ngAfterViewInit(): void {
+    console.log(this.email);
     if (this.message) {
       this.message.forEach(
         (message: AuthMessageComponent) => (message.days = 30)
