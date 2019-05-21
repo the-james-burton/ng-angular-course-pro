@@ -8,15 +8,15 @@ import {
   AfterViewInit,
   ViewChildren,
   ChangeDetectorRef
-} from "@angular/core";
+} from '@angular/core';
 
-import { AuthRememberComponent } from "./auth-remember.component";
-import { AuthMessageComponent } from "./auth-message.component";
+import { AuthRememberComponent } from './auth-remember.component';
+import { AuthMessageComponent } from './auth-message.component';
 
-import { User } from "./auth-form.interface";
+import { User } from './auth-form.interface';
 
 @Component({
-  selector: "auth-form",
+  selector: 'auth-form',
   template: `
     <div>
       <form (ngSubmit)="onSubmit(form.value)" #form="ngForm">
@@ -32,13 +32,13 @@ import { User } from "./auth-form.interface";
         <ng-content select="auth-remember"></ng-content>
         <!-- due to vs code angular2-inline plugin formatting problem
           this is rewritten as a function -->
-          <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
-          </auth-message>
-          <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
-          </auth-message>
-          <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
-          </auth-message>
-              <ng-content select="button"></ng-content>
+        <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
+        </auth-message>
+        <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
+        </auth-message>
+        <auth-message [style.display]="inheritStyleIfTrue(showMessage)">
+        </auth-message>
+        <ng-content select="button"></ng-content>
       </form>
     </div>
   `
@@ -58,8 +58,7 @@ export class AuthFormComponent implements AfterContentInit, AfterViewInit {
     return test ? 'inherit' : 'none';
   }
 
-  constructor(private cd: ChangeDetectorRef) {
-  }
+  constructor(private cd: ChangeDetectorRef) {}
 
   // this runs before ngAFterViewInit()
   ngAfterContentInit(): void {
@@ -79,11 +78,12 @@ export class AuthFormComponent implements AfterContentInit, AfterViewInit {
    */
   ngAfterViewInit(): void {
     if (this.message) {
-      this.message.forEach((message: AuthMessageComponent) => message.days = 30);
+      this.message.forEach(
+        (message: AuthMessageComponent) => (message.days = 30)
+      );
     }
     this.cd.detectChanges();
   }
-
 
   onSubmit(value: User) {
     this.submitted.emit(value);
