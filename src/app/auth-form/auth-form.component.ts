@@ -4,11 +4,7 @@ import {
   EventEmitter
 } from '@angular/core';
 
-import { AuthRememberComponent } from './auth-remember.component';
-import { AuthMessageComponent } from './auth-message.component';
-
 import { User } from './auth-form.interface';
-import { logging } from 'protractor';
 
 @Component({
   selector: 'auth-form',
