@@ -9,7 +9,8 @@ import {
   ViewChildren,
   ChangeDetectorRef,
   ViewChild,
-  ElementRef
+  ElementRef,
+  Renderer2
 } from '@angular/core';
 
 import { AuthRememberComponent } from './auth-remember.component';
@@ -19,7 +20,13 @@ import { User } from './auth-form.interface';
 
 @Component({
   selector: 'auth-form',
-  styles: [`.email { border-color: #9f72e6; }`],
+  styles: [
+    `
+      .email {
+        border-color: #9f72e6;
+      }
+    `
+  ],
   template: `
     <div>
       <form (ngSubmit)="onSubmit(form.value)" #form="ngForm">
@@ -59,7 +66,7 @@ export class AuthFormComponent implements AfterContentInit, AfterViewInit {
     return test ? 'inherit' : 'none';
   }
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef, private renderer: Renderer2) {}
 
   // this runs before ngAFterViewInit()
   ngAfterContentInit(): void {
@@ -78,9 +85,19 @@ export class AuthFormComponent implements AfterContentInit, AfterViewInit {
    * this is to demonstrate the change detection
    */
   ngAfterViewInit(): void {
-    this.email.nativeElement.setAttribute('placeholder', 'Enter your email address');
-    this.email.nativeElement.classList.add('email');
+    // different to course Renderer is Deprecated
+    // so using Renderer2 instead
+    this.renderer.setAttribute(
+      this.email.nativeElement,
+      'placeholder',
+      'Enter your email address'
+    );
+    this.renderer.addClass(this.email.nativeElement, 'email');
+
+    // Unfortunately, Renderer2 does not appear capable of setting focus...
+    // https://github.com/angular/angular/issues/15674
     this.email.nativeElement.focus();
+
     if (this.message) {
       this.message.forEach(
         (message: AuthMessageComponent) => (message.days = 30)
