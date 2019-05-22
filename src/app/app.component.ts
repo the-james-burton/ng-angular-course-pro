@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, AfterContentInit } from '@angular/core';
+
+import { AuthFormComponent } from './auth-form/auth-form.component';
 
 import { User } from './auth-form/auth-form.interface';
 
@@ -6,27 +8,24 @@ import { User } from './auth-form/auth-form.interface';
   selector: 'app-root',
   template: `
     <div>
-      <auth-form (submitted)="loginUser($event)">
-        <h3>Login</h3>
-        <auth-remember (checked)="rememberUser($event)"></auth-remember>
-        <button type="submit">
-          Login
-        </button>
-      </auth-form>
+      <div #entry></div>
     </div>
   `
 })
-export class AppComponent {
-  rememberMe: boolean = false;
+export class AppComponent implements AfterContentInit {
+  @ViewChild('entry', { read: ViewContainerRef }) entry: ViewContainerRef;
 
-  rememberUser(remember: boolean) {
-    this.rememberMe = remember;
-  }
-  createUser(user: User) {
-    console.log('Create account', user);
-  }
+  constructor(
+    private resolver: ComponentFactoryResolver
+  ) {}
 
   loginUser(user: User) {
-    console.log('Login', user, this.rememberMe);
+    console.log('Login', user);
   }
+
+  ngAfterContentInit(): void {
+    const authFormFactory = this.resolver.resolveComponentFactory(AuthFormComponent);
+    const component = this.entry.createComponent(authFormFactory);
+  }
+
 }
