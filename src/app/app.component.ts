@@ -18,6 +18,9 @@ import { User } from './auth-form/auth-form.interface';
       <button (click)="destroyComponent()">
         Destroy
       </button>
+      <button (click)="moveComponent()">
+        Move
+      </button>
       <div #entry></div>
     </div>
   `
@@ -37,12 +40,17 @@ export class AppComponent implements AfterContentInit {
     const authFormFactory = this.resolver.resolveComponentFactory(
       AuthFormComponent
     );
-    this.component = this.entry.createComponent(authFormFactory);
+    this.entry.createComponent(authFormFactory);
+    this.component = this.entry.createComponent(authFormFactory, 0);
     this.component.instance.title = 'Create account';
     this.component.instance.submitted.subscribe(this.loginUser);
   }
 
   destroyComponent() {
     this.component.destroy();
+  }
+
+  moveComponent() {
+    this.entry.move(this.component.hostView, 1);
   }
 }
