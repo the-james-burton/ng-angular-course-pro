@@ -16,8 +16,8 @@ import { User } from './auth-form/auth-form.interface';
     <div>
       <div #entry></div>
       <!-- different from course prefix with ng -->
-      <ng-template #tmpl>
-        John : Somewhere, UK
+      <ng-template #tmpl let-name let-location="location">
+        {{ name }} : {{ location }}
       </ng-template>
     </div>
   `
@@ -28,6 +28,9 @@ export class AppComponent implements AfterContentInit {
   @ViewChild('tmpl') tmpl: TemplateRef<any>;
 
   ngAfterContentInit(): void {
-    this.entry.createEmbeddedView<any>(this.tmpl);
+    this.entry.createEmbeddedView<any>(this.tmpl, {
+      $implicit: 'Julia',
+      location: 'UK, Somewhere'
+    });
   }
 }
