@@ -6,14 +6,21 @@ import { Component } from '@angular/core';
     <div>
       <label>
         Credit Card Number
-        <input 
-          name="credit-card" 
+        <input
+          name="credit-card"
           type="text"
           placeholder="Enter your 16-digit card number"
-          credit-card>
+          credit-card
+        />
+      </label>
+      <label tooltip="3 digits on back of card" #myTooltip="tooltip">
+        Enter your security code
+        <span (mouseover)="myTooltip.show()" (mouseout)="myTooltip.hide()">
+          (?)
+        </span>
+        <input type="text" />
       </label>
     </div>
   `
 })
-export class AppComponent {
-}
+export class AppComponent {}
