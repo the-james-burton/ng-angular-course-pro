@@ -1,45 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+interface File {
+  name: string,
+  size: number,
+  type: string
+}
 
 @Component({
   selector: 'app-root',
   template: `
     <div>
-      <ul>
-      <!-- the 'of' here is matched by angular to the 'Of' in the myForOf -->
-        <li *myFor="let item of items; let i = index">
-          {{ i }} Member: {{ item.name | json }}
-        </li>
-        <ng-template myFor [myForOf]="items" let-item let-i="index">
-          <li>{{ i }} Member: {{ item.name | json }}</li>
-        </ng-template>
-      </ul>
+      <div *ngFor="let file of files">
+        <p>{{ file.name }}</p>
+        <p>{{ file.size | filesize:'megabytes' }}</p>
+      </div>
     </div>
   `
 })
-export class AppComponent {
-  items = [
-    {
-      name: 'Tony Norman',
-      age: 41,
-      location: 'New York'
-    },
-    {
-      name: 'Isabel Purley',
-      age: 42,
-      location: 'New York'
-    },
-    {
-      name: 'Adam Old',
-      age: 40,
-      location: 'New York'
-    }
-  ];
-  constructor() {
-    setTimeout(() => {
-      this.items = [
-        ...this.items,
-        { name: 'Matt Skiba', age: 40, location: 'California' }
-      ];
-    }, 2000);
+export class AppComponent implements OnInit {
+  files: File[];
+  ngOnInit() {
+    this.files = [
+      { name: 'logo.svg', size: 2120109, type: 'image/svg' },
+      { name: 'banner.jpg', size: 18029, type: 'image/jpg' },
+      { name: 'background.png', size: 1784562, type: 'image/png' }
+    ];
   }
 }
