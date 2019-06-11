@@ -4,23 +4,42 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
     <div>
-      <label>
-        Credit Card Number
-        <input
-          name="credit-card"
-          type="text"
-          placeholder="Enter your 16-digit card number"
-          credit-card
-        />
-      </label>
-      <label tooltip="3 digits on back of card" #myTooltip="tooltip">
-        Enter your security code
-        <span (mouseover)="myTooltip.show()" (mouseout)="myTooltip.hide()">
-          (?)
-        </span>
-        <input type="text" />
-      </label>
+      <ul>
+      <!-- the 'of' here is matched by angular to the 'Of' in the myForOf -->
+        <li *myFor="let item of items; let i = index">
+          {{ i }} Member: {{ item.name | json }}
+        </li>
+        <ng-template myFor [myForOf]="items" let-item let-i="index">
+          <li>{{ i }} Member: {{ item.name | json }}</li>
+        </ng-template>
+      </ul>
     </div>
   `
 })
-export class AppComponent {}
+export class AppComponent {
+  items = [
+    {
+      name: 'Tony Norman',
+      age: 41,
+      location: 'New York'
+    },
+    {
+      name: 'Isabel Purley',
+      age: 42,
+      location: 'New York'
+    },
+    {
+      name: 'Adam Old',
+      age: 40,
+      location: 'New York'
+    }
+  ];
+  constructor() {
+    setTimeout(() => {
+      this.items = [
+        ...this.items,
+        { name: 'Matt Skiba', age: 40, location: 'California' }
+      ];
+    }, 2000);
+  }
+}
