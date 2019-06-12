@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'stock-inventory',
@@ -7,14 +7,10 @@ import { FormGroup, FormControl } from '@angular/forms';
   template: `
     <div class="stock-inventory">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div formGroupName="store">
-          <input type="text" placeholder="Branch ID" formControlName="branch" />
-          <input
-            type="text"
-            placeholder="Manager Code"
-            formControlName="code"
-          />
-        </div>
+        <stock-branch [parent]="form"> </stock-branch>
+        <stock-selector [parent]="form"> </stock-selector>
+        <stock-products [parent]="form"> </stock-products>
+
         <div class="stock-inventory__buttons">
           <button type="submit" [disabled]="form.invalid">
             Order stock
@@ -29,9 +25,14 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class StockInventoryComponent {
   form = new FormGroup({
     store: new FormGroup({
-      branch: new FormControl('B182'),
-      code: new FormControl('1234')
-    })
+      branch: new FormControl(''),
+      code: new FormControl('')
+    }),
+    selector: new FormGroup({
+      product_id: new FormControl(''),
+      quantity: new FormControl(10)
+    }),
+    stock: new FormArray([])
   });
 
   onSubmit() {
