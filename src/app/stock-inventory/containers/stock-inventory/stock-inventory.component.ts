@@ -15,7 +15,8 @@ import { Product } from '../models/product.interface';
           (added)="addStock($event)"
         >
         </stock-selector>
-        <stock-products [parent]="form"> </stock-products>
+        <stock-products [parent]="form" (removed)="removeStock($event)">
+        </stock-products>
 
         <div class="stock-inventory__buttons">
           <button type="submit" [disabled]="form.invalid">
@@ -59,6 +60,11 @@ export class StockInventoryComponent {
   addStock(stock) {
     const control = this.form.get('stock') as FormArray;
     control.push(this.createStock(stock));
+  }
+
+  removeStock({ group, index }: { group: FormGroup; index: number }) {
+    const control = this.form.get('stock') as FormArray;
+    control.removeAt(index);
   }
 
   onSubmit() {
