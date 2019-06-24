@@ -1,1 +1,13 @@
-{}
+{
+  "cart": [
+    { "product_id": 1, "quantity": 10 },
+    { "product_id": 3, "quantity": 50 }
+  ],
+  "products": [
+    { "id": 1, "price": 800, "name": "Doohickey" },
+    { "id": 2, "price": 90, "name": "Dooberry Whatsit" },
+    { "id": 3, "price": 300, "name": "Thingamabob" },
+    { "id": 4, "price": 700, "name": "Widget" },
+    { "id": 5, "price": 100, "name": "Dongle" }
+  ]
+}
