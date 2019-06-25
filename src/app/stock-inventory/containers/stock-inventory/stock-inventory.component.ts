@@ -3,6 +3,7 @@ import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Product, Item } from '../models/product.interface';
 import { StockInventoryService } from '../../services/stock-inventory.service';
 import { Observable, forkJoin } from 'rxjs';
+import { templateJitUrl } from '@angular/compiler';
 
 @Component({
   selector: 'stock-inventory',
@@ -24,6 +25,10 @@ import { Observable, forkJoin } from 'rxjs';
         >
         </stock-products>
 
+        <div class="stock-inventory__price">
+          Total: {{ total | currency:'USD':'symbol'}}
+        </div>
+
         <div class="stock-inventory__buttons">
           <button type="submit" [disabled]="form.invalid">
             Order stock
@@ -43,6 +48,7 @@ export class StockInventoryComponent implements OnInit {
 
   products: Product[];
   productMap: Map<number, Product>;
+  total: number;
 
   form = this.fb.group({
     store: this.fb.group({
@@ -67,7 +73,19 @@ export class StockInventoryComponent implements OnInit {
         this.productMap = new Map<number, Product>(myMap);
         this.products = products;
         cart.forEach(item => this.addStock(item));
+
+        this.calculateTotal(this.form.get('stock').value);
+        this.form.get('stock')
+          .valueChanges.subscribe(value => this.calculateTotal(value));
+
       });
+  }
+
+  calculateTotal(value: Item[]) {
+    const total = value.reduce((prev, next) => {
+      return prev + (next.quantity * this.productMap.get(next.product_id).price)
+    }, 0);
+    this.total = total;
   }
 
   createStock(stock) {

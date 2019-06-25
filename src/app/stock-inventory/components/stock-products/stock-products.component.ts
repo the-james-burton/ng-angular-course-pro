@@ -14,7 +14,12 @@ import { Product } from '../../containers/models/product.interface';
               {{ getProduct(item.value.product_id).name }}
             </div>
             <div class="stock-product__price">
-              {{ getProduct(item.value.product_id).price | currency:'USD':true }}
+              <!-- different from course - currency pipe
+                  The symbolDisplay option (third parameter) is now a string instead of a boolean. The accepted values are "code", "symbol" or "symbol-narrow".-->
+              {{
+                getProduct(item.value.product_id).price
+                  | currency: 'USD':'symbol'
+              }}
             </div>
             <input
               formControlName="quantity"
