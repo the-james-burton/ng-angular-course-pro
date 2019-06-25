@@ -40,5 +40,10 @@ export class StockSelectorComponent {
 
   onAdd() {
     this.added.emit(this.parent.get('selector').value);
+    // note difference between reset, patchValue and setValue
+    this.parent.get('selector').reset({
+      product_id: '',
+      quantity: 10
+    });
   }
 }
