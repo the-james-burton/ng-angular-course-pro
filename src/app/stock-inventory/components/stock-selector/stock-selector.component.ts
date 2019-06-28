@@ -14,14 +14,12 @@ import { Product } from '../../containers/models/product.interface';
             {{ product.name }}
           </option>
         </select>
-        <input
+        <stock-counter
+          [step]="10"
+          [min]="10"
+          [max]="1000"
           formControlName="quantity"
-          type="number"
-          step="10"
-          min="10"
-          max="1000"
-        />
-        <stock-counter [step]="10" [min]="10" [max]="1000"></stock-counter>
+        ></stock-counter>
         <button type="button" (click)="onAdd()">
           Add stock
         </button>
