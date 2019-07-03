@@ -58,7 +58,7 @@ export class StockInventoryComponent implements OnInit {
     }),
     selector: this.createStock({}),
     stock: this.fb.array([])
-  });
+  }, { validator: StockValidators.checkStockExists} );
 
   ngOnInit(): void {
     const cart = this.stockService.getCartItems();
