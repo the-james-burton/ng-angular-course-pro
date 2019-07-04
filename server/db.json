@@ -9,5 +9,11 @@
     { "id": 3, "price": 300, "name": "Thingamabob" },
     { "id": 4, "price": 700, "name": "Widget" },
     { "id": 5, "price": 100, "name": "Dongle" }
+  ],
+  "branches": [
+    { "id": "A123" },
+    { "id": "B234" },
+    { "id": "C345" },
+    { "id": "D456" }
   ]
 }
