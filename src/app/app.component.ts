@@ -12,10 +12,16 @@ import { filter } from 'rxjs/operators';
       </header>
       <div class="app__content">
         <nav>
-          <a routerLink="folder/inbox" routerLinkActive="active">
+          <a
+            [routerLink]="[{ outlets: { primary: 'folder/inbox', pane: null } }]"
+            routerLinkActive="active"
+          >
             Inbox
           </a>
-          <a routerLink="folder/trash" routerLinkActive="active">
+          <a
+            [routerLink]="[{ outlets: { primary: 'folder/trash', pane: null } }]"
+            routerLinkActive="active"
+          >
             Trash
           </a>
         </nav>
@@ -28,11 +34,9 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
   ngOnInit() {
     this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd)
-      )
+      .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(event => {
-          console.log(event);
+        console.log(event);
       });
   }
 }
