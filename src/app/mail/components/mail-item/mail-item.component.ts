@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
     <!-- (click)="navigateToMessage()" -->
     <a
       class="mail-item"
-      [routerLink]="['', { outlets: { pane: ['message', message.id] } }]"
+      [routerLink]="['/mail', { outlets: { pane: ['message', message.id] } }]"
       routerLinkActive="active"
     >
       <h3>

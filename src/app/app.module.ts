@@ -6,8 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MailModule } from './mail/mail.module';
 
 import { AppComponent } from './app.component';
+import { DashboardModule } from './dashboard/dashboard.module';
 
-export const ROUTES: Routes = [{ path: '**', redirectTo: 'folder/inbox' }];
+export const ROUTES: Routes = [{ path: '**', redirectTo: 'mail/folder/inbox' }];
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +16,7 @@ export const ROUTES: Routes = [{ path: '**', redirectTo: 'folder/inbox' }];
     BrowserModule,
     HttpClientModule,
     MailModule,
+    DashboardModule,
     RouterModule.forRoot(ROUTES)
   ],
   bootstrap: [AppComponent]
