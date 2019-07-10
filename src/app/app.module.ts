@@ -12,10 +12,13 @@ import { MailModule } from './mail/mail.module';
 
 import { AppComponent } from './app.component';
 import { Observable, of } from 'rxjs';
+import { AuthModule } from './auth/auth.module';
+import { AuthGuard } from './auth/auth.guard';
 
 export const ROUTES: Routes = [
   {
     path: 'dashboard',
+    canLoad: [AuthGuard],
     data: { preload: true },
     loadChildren: './dashboard/dashboard.module#DashboardModule'
   },
@@ -36,6 +39,7 @@ export class CustomPreload implements PreloadingStrategy {
     BrowserModule,
     HttpClientModule,
     MailModule,
+    AuthModule,
     RouterModule.forRoot(ROUTES, { preloadingStrategy: CustomPreload })
   ],
   bootstrap: [AppComponent]
