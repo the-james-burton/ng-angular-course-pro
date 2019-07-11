@@ -1,47 +1,18 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  RouterModule,
-  Routes,
-  PreloadingStrategy,
-  Route
-} from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 
-import { MailModule } from './mail/mail.module';
-
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { Observable, of } from 'rxjs';
-import { AuthModule } from './auth/auth.module';
-import { AuthGuard } from './auth/auth.guard';
-
-export const ROUTES: Routes = [
-  {
-    path: 'dashboard',
-    canLoad: [AuthGuard],
-    data: { preload: true },
-    loadChildren: './dashboard/dashboard.module#DashboardModule'
-  },
-  { path: '**', redirectTo: 'mail/folder/inbox' }
-];
-
-export class CustomPreload implements PreloadingStrategy {
-  preload(route: Route, fn: () => Observable<any>): Observable<any> {
-    // different from course - of is imported function not static function...
-    return route.data && route.data.preload ? fn() : of(null);
-  }
-}
 
 @NgModule({
-  declarations: [AppComponent],
-  providers: [CustomPreload],
+  declarations: [
+    AppComponent
+  ],
   imports: [
     BrowserModule,
-    HttpClientModule,
-    MailModule,
-    AuthModule,
-    RouterModule.forRoot(ROUTES, { preloadingStrategy: CustomPreload })
+    AppRoutingModule
   ],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
