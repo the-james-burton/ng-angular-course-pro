@@ -31,7 +31,7 @@ describe('StockCounterComponent', () => {
     expect(component.value).toBe(0);
   });
 
-  it('should not decrement below the minimum value', () => {
+  it('should not decrement below the default minimum value', () => {
     component.increment();
     expect(component.value).toBe(1);
     component.decrement();
@@ -40,10 +40,26 @@ describe('StockCounterComponent', () => {
     expect(component.value).toBe(0);
   });
 
-  it('should not increment above the maximum value', () => {
+  it('should not increment above the default maximum value', () => {
     for (let i = 0; i < 200; i++) {
       component.increment();
     }
     expect(component.value).toBe(100);
   });
+
+  it('should not increment above the given maximum', () => {
+    component.step = 20;
+    component.max = 20;
+    component.increment();
+    component.increment();
+    expect(component.value).toBe(20);
+  });
+
+  it('should call the output on a value change', () => {
+    spyOn(component.changed, 'emit').and.callThrough();
+    component.step = 100;
+    component.increment();
+    expect(component.changed.emit).toHaveBeenCalledWith(100);
+  });
+
 });
