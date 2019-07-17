@@ -1,8 +1,4 @@
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting
-} from '@angular/platform-browser-dynamic/testing';
 import { Component } from '@angular/core';
 import { FileSizePipe } from './file-size.pipe';
 

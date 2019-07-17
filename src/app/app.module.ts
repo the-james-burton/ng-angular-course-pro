@@ -3,10 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { StockCounterComponent } from './stock-inventory/components/stock-counter/stock-counter.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, StockCounterComponent
   ],
   imports: [
     BrowserModule,
