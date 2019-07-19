@@ -1,28 +1,29 @@
-import {
-  Component,
-  Input,
-  ChangeDetectionStrategy,
-  EventEmitter,
-  Output
-} from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+
+const COUNTER_CONTROL_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => StockCounterComponent),
+  multi: true
+};
 
 @Component({
   selector: 'stock-counter',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [COUNTER_CONTROL_ACCESSOR],
+  styleUrls: ['stock-counter.component.scss'],
   template: `
-    <div class="stock-counter">
+    <div class="stock-counter" [class.focused]="focus">
       <div>
         <div
-          (keydown)="onKeyUp($event)"
+          tabindex="0"
+          (keydown)="onKeyDown($event)"
           (blur)="onBlur($event)"
           (focus)="onFocus($event)"
-          tabindex="0"
         >
           <p>{{ value }}</p>
-          <div tabindex="-1">
+          <div>
             <button
               type="button"
-              tabindex="-1"
               (click)="increment()"
               [disabled]="value === max"
             >
@@ -30,7 +31,6 @@ import {
             </button>
             <button
               type="button"
-              tabindex="-1"
               (click)="decrement()"
               [disabled]="value === min"
             >
@@ -42,38 +42,19 @@ import {
     </div>
   `
 })
-export class StockCounterComponent {
-  @Input() step: number = 1;
-  @Input() min: number = 0;
-  @Input() max: number = 100;
+export class StockCounterComponent implements ControlValueAccessor {
+  @Input() step: number = 10;
+  @Input() min: number = 10;
+  @Input() max: number = 1000;
 
-  @Output() changed = new EventEmitter<number>();
+  value: number = 10;
 
-  value: number = 0;
-  focused: boolean;
+  focus: boolean;
+  private onTouch: Function;
+  private onModelChange: Function;
 
-  increment() {
-    if (this.value < this.max) {
-      this.value = this.value + this.step;
-      this.changed.emit(this.value);
-    }
-  }
-
-  decrement() {
-    if (this.value > this.min) {
-      this.value = this.value - this.step;
-      this.changed.emit(this.value);
-    }
-  }
-
-  private onBlur(event: FocusEvent) {
-    this.focused = false;
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  private onKeyUp(event: KeyboardEvent) {
-    let handlers = {
+  onKeyDown(event: KeyboardEvent) {
+    const handlers = {
       ArrowDown: () => this.decrement(),
       ArrowUp: () => this.increment()
     };
@@ -83,11 +64,48 @@ export class StockCounterComponent {
       event.preventDefault();
       event.stopPropagation();
     }
+    this.onTouch();
   }
 
-  private onFocus(event: FocusEvent) {
-    this.focused = true;
+  onBlur(event: FocusEvent) {
+    this.focus = false;
     event.preventDefault();
     event.stopPropagation();
+    this.onTouch();
+  }
+
+  onFocus(event: FocusEvent) {
+    this.focus = true;
+    event.preventDefault();
+    event.stopPropagation();
+    this.onTouch();
+  }
+
+  writeValue(value: any): void {
+    this.value = value || 0;
+  }
+
+  registerOnChange(fn: any): void {
+    this.onModelChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+
+  increment() {
+    if (this.value < this.max) {
+      this.value = this.value + this.step;
+      this.onModelChange(this.value);
+    }
+    this.onTouch();
+  }
+
+  decrement() {
+    if (this.value > this.min) {
+      this.value = this.value - this.step;
+      this.onModelChange(this.value);
+    }
+    this.onTouch();
   }
 }
