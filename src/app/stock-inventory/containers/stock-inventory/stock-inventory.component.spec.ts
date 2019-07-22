@@ -1,13 +1,9 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { StockInventoryComponent } from './stock-inventory.component';
-import { StockBranchComponent } from '../../components/stock-branch/stock-branch.component';
-import { StockCounterComponent } from '../../components/stock-counter/stock-counter.component';
-import { StockProductsComponent } from '../../components/stock-products/stock-products.component';
-import { StockSelectorComponent } from '../../components/stock-selector/stock-selector.component';
 import { StockInventoryService } from '../../services/stock-inventory.service';
 
 import { of } from 'rxjs';
@@ -39,13 +35,8 @@ describe('StockInventoryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [
-        StockInventoryComponent,
-        StockBranchComponent,
-        StockCounterComponent,
-        StockProductsComponent,
-        StockSelectorComponent
-      ],
+      declarations: [StockInventoryComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: StockInventoryService, useClass: MockStockInventoryService }
       ]
