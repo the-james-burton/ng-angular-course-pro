@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 const COUNTER_CONTROL_ACCESSOR = {
@@ -43,11 +43,14 @@ const COUNTER_CONTROL_ACCESSOR = {
   `
 })
 export class StockCounterComponent implements ControlValueAccessor {
-  @Input() step: number = 10;
-  @Input() min: number = 10;
-  @Input() max: number = 1000;
+  @Input() step: number = 1;
+  @Input() min: number = 0;
+  @Input() max: number = 100;
 
-  value: number = 10;
+  // for testing purposes...
+  @Output() changed = new EventEmitter<number>();
+
+  value: number = 0;
 
   focus: boolean;
   private onTouch: Function;
@@ -97,6 +100,7 @@ export class StockCounterComponent implements ControlValueAccessor {
     if (this.value < this.max) {
       this.value = this.value + this.step;
       this.onModelChange(this.value);
+      this.changed.emit(this.value);
     }
     this.onTouch();
   }
@@ -105,6 +109,7 @@ export class StockCounterComponent implements ControlValueAccessor {
     if (this.value > this.min) {
       this.value = this.value - this.step;
       this.onModelChange(this.value);
+      this.changed.emit(this.value);
     }
     this.onTouch();
   }
