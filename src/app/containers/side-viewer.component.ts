@@ -9,7 +9,7 @@ interface Side {
 
 @Component({
   selector: 'side-viewer',
-  providers: [FoodService],
+  providers: [{ provide: FoodService, useClass: FoodService }],
   template: `
     <div>
       <div *ngFor="let item of items$ | async">
