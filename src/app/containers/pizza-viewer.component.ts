@@ -1,15 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FoodService } from '../food.service';
+import { HttpClient } from '@angular/common/http';
 
 interface Pizza {
   name: string;
   price: number;
 }
 
+// different from course - compile time error...
+// "Function expressions are not supported in decoratorsConsider changing the function expression into an exported function"
+export function PizzaFactory(httpClient: HttpClient) {
+  return new FoodService(httpClient, 'http://localhost:3000/api/pizzas');
+}
+
 @Component({
   selector: 'pizza-viewer',
-  providers: [{ provide: FoodService, useClass: FoodService }],
+  providers: [
+    {
+      provide: FoodService,
+      useFactory: PizzaFactory,
+      deps: [HttpClient]
+    }
+  ],
   template: `
     <div>
       <div *ngFor="let item of items$ | async">
