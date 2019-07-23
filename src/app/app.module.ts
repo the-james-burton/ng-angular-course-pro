@@ -9,6 +9,7 @@ import { TooltipDirective } from './tooltip/tooltip.directive';
 import { PizzaViewerComponent } from './containers/pizza-viewer.component';
 import { DrinkViewerComponent } from './containers/drink-viewer.component';
 import { SideViewerComponent } from './containers/side-viewer.component';
+import { API_TOKEN } from './token';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,6 @@ import { SideViewerComponent } from './containers/side-viewer.component';
   ],
   imports: [BrowserModule, StockInventoryModule],
   bootstrap: [AppComponent],
-  providers: [{ provide: 'api', useValue: 'http://localhost:3000/api/pizzas' }]
+  providers: [{ provide: API_TOKEN, useValue: 'http://localhost:3000/api/pizzas' }]
 })
 export class AppModule {}
