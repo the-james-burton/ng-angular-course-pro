@@ -11,7 +11,7 @@ interface Drink {
 // different from course - compile time error...
 // "Function expressions are not supported in decoratorsConsider changing the function expression into an exported function"
 export function DrinkFactory(httpClient: HttpClient) {
-  return new FoodService(httpClient, 'http://localhost:3000/api/drinks');
+  return new FoodService(httpClient, 'http://localhost:3000/api');
 }
 
 @Component({
@@ -35,6 +35,6 @@ export class DrinkViewerComponent implements OnInit {
   items$: Observable<Drink[]>;
   constructor(private foodService: FoodService) {}
   ngOnInit() {
-    this.items$ = this.foodService.getFood();
+    this.items$ = this.foodService.getDrinks();
   }
 }

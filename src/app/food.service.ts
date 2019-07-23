@@ -8,7 +8,13 @@ export class FoodService {
     private http: HttpClient,
     private api: string
   ) {}
-  getFood(): Observable<any[]> {
-    return this.http.get<any[]>(this.api);
+  getPizzas(): Observable<any[]> {
+    return this.http.get<any[]>(this.api + '/pizzas');
+  }
+  getDrinks(): Observable<any[]> {
+    return this.http.get<any[]>(this.api + '/drinks');
+  }
+  getSides(): Observable<any[]> {
+    return this.http.get<any[]>(this.api + '/sides');
   }
 }

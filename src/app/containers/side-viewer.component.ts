@@ -11,7 +11,7 @@ interface Side {
 // different from course - compile time error...
 // "Function expressions are not supported in decoratorsConsider changing the function expression into an exported function"
 export function SideFactory(httpClient: HttpClient) {
-  return new FoodService(httpClient, 'http://localhost:3000/api/sides');
+  return new FoodService(httpClient, 'http://localhost:3000/api');
 }
 
 @Component({
@@ -35,6 +35,6 @@ export class SideViewerComponent implements OnInit {
   items$: Observable<Side[]>;
   constructor(private foodService: FoodService) {}
   ngOnInit() {
-    this.items$ = this.foodService.getFood();
+    this.items$ = this.foodService.getSides();
   }
 }
