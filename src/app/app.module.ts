@@ -1,27 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
-import { StockInventoryModule } from './stock-inventory/stock-inventory.module';
-
+import { FoodStoreModule } from './food-store/food-store.module';
 import { AppComponent } from './app.component';
-import { CreditCardDirective } from './credit-card/credit-card.directive';
-import { TooltipDirective } from './tooltip/tooltip.directive';
-import { PizzaViewerComponent } from './containers/pizza-viewer.component';
-import { DrinkViewerComponent } from './containers/drink-viewer.component';
-import { SideViewerComponent } from './containers/side-viewer.component';
-import { API_TOKEN } from './token';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CreditCardDirective,
-    TooltipDirective,
-    PizzaViewerComponent,
-    DrinkViewerComponent,
-    SideViewerComponent
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    FoodStoreModule.forRoot({
+      storeId: 10292,
+      storeToken: 'eca938c99a0e9ff91029dc'
+    })
   ],
-  imports: [BrowserModule, StockInventoryModule],
-  bootstrap: [AppComponent],
-  providers: [{ provide: API_TOKEN, useValue: 'http://localhost:3000/api/pizzas' }]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
