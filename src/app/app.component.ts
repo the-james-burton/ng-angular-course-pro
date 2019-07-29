@@ -1,27 +1,23 @@
-import { Component, OnInit, DoCheck, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store } from './store';
 
 @Component({
   selector: 'app-root',
   template: `
-    <div>Counter: {{ counter }}</div>
+    <div>
+      <div *ngFor="let todo of todos$ | async">
+        {{ todo.name }}
+      </div>
+    </div>
   `
 })
-export class AppComponent implements OnInit, DoCheck {
-  counter = 0;
-  constructor(private zone: NgZone) {}
+export class AppComponent {
+  todos$ = this.store.select<any[]>('todos');
 
-  ngOnInit() {
-    this.zone.runOutsideAngular(() => {
-      for (let i = 0; i < 100; i++) {
-        setTimeout(() => this.counter++);
-      }
-      this.zone.run(() => {
-        setTimeout(() => (this.counter = this.counter), 1000);
-      });
-    });
-  }
-
-  ngDoCheck() {
-    console.log('Change detection has been run!');
+  constructor(private store: Store) {
+    this.store.set('todos', [
+      { id: 1, name: 'Eat dinner' },
+      { id: 2, name: 'Do washing' }
+    ]);
   }
 }
