@@ -3,6 +3,8 @@ import { Store } from 'src/app/store';
 import { Observable } from 'rxjs';
 import { SongsService } from '../../services/songs.service';
 
+import { filter, map } from 'rxjs/operators';
+
 @Component({
   selector: 'songs-favourites',
   template: `
@@ -20,6 +22,9 @@ export class SongsFavouritesCompoment implements OnInit {
   favourties$: Observable<any[]>;
 
   ngOnInit(): void {
-    this.favourties$ = this.store.select('playlist');
+    this.favourties$ = this.store.select('playlist').pipe(
+      filter(Boolean),
+      map((playlist: any[]) => playlist.filter(track => track.favourite))
+    );
   }
 }
