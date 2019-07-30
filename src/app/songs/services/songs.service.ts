@@ -23,4 +23,8 @@ export class SongsService {
   getPlaylist$ = this.http.get<Song[]>(API_ROOT + '/playlist').pipe(
     tap(next => this.store.set('playlist', next))
   );
+
+  toggle(event: any) {
+    console.log(event);
+  }
 }

@@ -9,7 +9,7 @@ import { filter, map } from 'rxjs/operators';
   selector: 'songs-listened',
   template: `
     <div class="songs">
-      <songs-list [list]="listened$ | async">
+      <songs-list [list]="listened$ | async"  (toggle)="onToggle($event)">
         Listened
       </songs-list>
     </div>
@@ -26,4 +26,9 @@ export class SongsListenedCompoment implements OnInit {
       map((playlist: any[]) => playlist.filter(track => track.listened))
     );
   }
+
+  onToggle(event) {
+    this.songsService.toggle(event);
+  }
+
 }

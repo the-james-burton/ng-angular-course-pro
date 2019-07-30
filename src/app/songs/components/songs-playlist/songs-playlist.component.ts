@@ -7,7 +7,7 @@ import { Observable, Subscription } from 'rxjs';
   selector: 'songs-playlist',
   template: `
     <div class="songs">
-      <songs-list [list]="playlist$ | async">
+      <songs-list [list]="playlist$ | async" (toggle)="onToggle($event)">
         Playlist
       </songs-list>
     </div>
@@ -26,5 +26,9 @@ export class SongsPlaylistCompoment implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  onToggle(event) {
+    this.songsService.toggle(event);
   }
 }
