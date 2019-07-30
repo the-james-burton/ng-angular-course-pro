@@ -9,10 +9,9 @@ import { filter, map } from 'rxjs/operators';
   selector: 'songs-favourites',
   template: `
     <div class="songs">
-      <div *ngFor="let item of favourties$ | async">
-        {{ item.artist }}
-        {{ item.track }}
-      </div>
+      <songs-list [list]="favourties$ | async">
+        Favourites
+      </songs-list>
     </div>
   `
 })

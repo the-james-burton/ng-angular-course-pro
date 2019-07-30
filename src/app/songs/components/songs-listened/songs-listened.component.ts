@@ -9,10 +9,9 @@ import { filter, map } from 'rxjs/operators';
   selector: 'songs-listened',
   template: `
     <div class="songs">
-      <div *ngFor="let item of listened$ | async">
-        {{ item.artist }}
-        {{ item.track }}
-      </div>
+      <songs-list [list]="listened$ | async">
+        Listened
+      </songs-list>
     </div>
   `
 })

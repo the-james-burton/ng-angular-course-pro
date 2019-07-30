@@ -7,11 +7,20 @@ import { tap } from 'rxjs/operators';
 
 const API_ROOT = 'http://localhost:3000/api';
 
+export interface Song {
+  // different from course - correct parameter list vs db.json...
+  id: number;
+  artist: string;
+  track: string;
+  listened: boolean;
+  favourite: boolean;
+}
+
 @Injectable()
 export class SongsService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  getPlaylist$ = this.http.get(API_ROOT + '/playlist').pipe(
+  getPlaylist$ = this.http.get<Song[]>(API_ROOT + '/playlist').pipe(
     tap(next => this.store.set('playlist', next))
   );
 }
