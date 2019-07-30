@@ -1,8 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Song } from '../../services/songs.service';
 
 @Component({
   selector: 'songs-list',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['songs-list.component.scss'],
   template: `
     <div class="songs-list">
